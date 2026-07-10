@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CrowdMix</title>
+</head>
+<body>
+    <div id="CrowdMixConfigPage" data-role="page" class="page type-interior pluginConfigurationPage">
+        <div data-role="content">
+            <div class="content-primary">
+                <form class="CrowdMixConfigForm">
+                    <div class="inputContainer">
+                        <label for="LastFmApiKey">Last.fm API Key:</label>
+                        <input id="LastFmApiKey" name="LastFmApiKey" type="text" is="emby-input" />
+                        <div class="fieldDescription">Get a free key at last.fm/api. Required for crowd-sourced mixes.</div>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input id="Enabled" name="Enabled" type="checkbox" is="emby-checkbox" />
+                            <span>Override native Instant Mix with CrowdMix</span>
+                        </label>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input id="FallbackToNative" name="FallbackToNative" type="checkbox" is="emby-checkbox" />
+                            <span>Fall back to native mix when no crowd matches are found</span>
+                        </label>
+                    </div>
+                    <div class="inputContainer">
+                        <label for="MixSize">Instant Mix size:</label>
+                        <input id="MixSize" name="MixSize" type="number" min="5" max="200" is="emby-input" />
+                    </div>
+                    <h3>Re-ranking weights</h3>
+                    <div class="fieldDescription">Higher values give a signal more influence over track ordering.</div>
+                    <div class="inputContainer">
+                        <label for="CrowdSimilarityWeight">Crowd similarity weight:</label>
+                        <input id="CrowdSimilarityWeight" name="CrowdSimilarityWeight" type="number" min="0" max="5" step="0.05" is="emby-input" />
+                    </div>
+                    <div class="inputContainer">
+                        <label for="TagOverlapWeight">Tag/genre overlap weight:</label>
+                        <input id="TagOverlapWeight" name="TagOverlapWeight" type="number" min="0" max="5" step="0.05" is="emby-input" />
+                    </div>
+                    <div class="inputContainer">
+                        <label for="PlayAffinityWeight">Play-history affinity weight:</label>
+                        <input id="PlayAffinityWeight" name="PlayAffinityWeight" type="number" min="0" max="5" step="0.05" is="emby-input" />
+                    </div>
+                    <div class="inputContainer">
+                        <label for="FavoriteBonusWeight">Favorite bonus weight:</label>
+                        <input id="FavoriteBonusWeight" name="FavoriteBonusWeight" type="number" min="0" max="5" step="0.05" is="emby-input" />
+                    </div>
+                    <div class="inputContainer">
+                        <label for="MaxTracksPerArtist">Max tracks per artist (0 = no limit):</label>
+                        <input id="MaxTracksPerArtist" name="MaxTracksPerArtist" type="number" min="0" max="50" is="emby-input" />
+                        <div class="fieldDescription">Last.fm ranks the seed artist's own tracks highest; cap them to keep the mix varied.</div>
+                    </div>
+                    <h3>Daily mix</h3>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input id="EnableDailyMix" name="EnableDailyMix" type="checkbox" is="emby-checkbox" />
+                            <span>Generate a per-user daily mix playlist</span>
+                        </label>
+                    </div>
+                    <div class="inputContainer">
+                        <label for="DailyMixSize">Daily mix size:</label>
+                        <input id="DailyMixSize" name="DailyMixSize" type="number" min="5" max="200" is="emby-input" />
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var CrowdMixConfig = {
+                pluginUniqueId: 'fd98574b-53f4-473d-81e1-ca86cce168bd'
+            };
+
+            document.querySelector('.CrowdMixConfigForm')
+                .addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    Dashboard.showLoadingMsg();
+
+                    ApiClient.getPluginConfiguration(CrowdMixConfig.pluginUniqueId).then(function (config) {
+                        config.LastFmApiKey = document.querySelector('#LastFmApiKey').value;
+                        config.Enabled = document.querySelector('#Enabled').checked;
+                        config.FallbackToNative = document.querySelector('#FallbackToNative').checked;
+                        config.MixSize = parseInt(document.querySelector('#MixSize').value);
+                        config.CrowdSimilarityWeight = parseFloat(document.querySelector('#CrowdSimilarityWeight').value);
+                        config.TagOverlapWeight = parseFloat(document.querySelector('#TagOverlapWeight').value);
+                        config.PlayAffinityWeight = parseFloat(document.querySelector('#PlayAffinityWeight').value);
+                        config.FavoriteBonusWeight = parseFloat(document.querySelector('#FavoriteBonusWeight').value);
+                        config.MaxTracksPerArtist = parseInt(document.querySelector('#MaxTracksPerArtist').value);
+                        config.EnableDailyMix = document.querySelector('#EnableDailyMix').checked;
+                        config.DailyMixSize = parseInt(document.querySelector('#DailyMixSize').value);
+
+                        ApiClient.updatePluginConfiguration(CrowdMixConfig.pluginUniqueId, config).then(function (result) {
+                            Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
+                    });
+
+                    return false;
+                });
+
+            document.querySelector('#CrowdMixConfigPage').addEventListener('pageshow', function () {
+                Dashboard.showLoadingMsg();
+
+                ApiClient.getPluginConfiguration(CrowdMixConfig.pluginUniqueId).then(function (config) {
+                    document.querySelector('#LastFmApiKey').value = config.LastFmApiKey || '';
+                    document.querySelector('#Enabled').checked = config.Enabled !== false;
+                    document.querySelector('#FallbackToNative').checked = config.FallbackToNative !== false;
+                    document.querySelector('#MixSize').value = config.MixSize || 50;
+                    document.querySelector('#CrowdSimilarityWeight').value = config.CrowdSimilarityWeight ?? 1.0;
+                    document.querySelector('#TagOverlapWeight').value = config.TagOverlapWeight ?? 0.4;
+                    document.querySelector('#PlayAffinityWeight').value = config.PlayAffinityWeight ?? 0.3;
+                    document.querySelector('#FavoriteBonusWeight').value = config.FavoriteBonusWeight ?? 0.25;
+                    document.querySelector('#MaxTracksPerArtist').value = config.MaxTracksPerArtist ?? 2;
+                    document.querySelector('#EnableDailyMix').checked = config.EnableDailyMix === true;
+                    document.querySelector('#DailyMixSize').value = config.DailyMixSize || 30;
+
+                    Dashboard.hideLoadingMsg();
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

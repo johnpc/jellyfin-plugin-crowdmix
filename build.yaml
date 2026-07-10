@@ -1,0 +1,20 @@
+---
+name: "CrowdMix"
+guid: "fd98574b-53f4-473d-81e1-ca86cce168bd"
+version: "0.0.0.1"
+targetAbi: "10.11.0.0"
+framework: "net9.0"
+overview: "A better Instant Mix powered by real listening-crowd similarity (Last.fm), not just audio."
+description: >
+  CrowdMix replaces Jellyfin's native Instant Mix with recommendations sourced from a real listening
+  population via the Last.fm API — the same collaborative-filtering signal that makes commercial
+  services feel hand-picked. It matches your local tracks to the Last.fm catalog, pulls similar tracks
+  and artists, intersects them with music you actually own, and re-ranks the result by your own Jellyfin
+  play history and tag overlap. Tracks with no catalog match transparently fall back to Jellyfin's
+  native mix, so you never get an empty playlist. Also generates per-user daily mixes.
+category: "General"
+owner: "johnpc"
+artifacts:
+  - "Jellyfin.Plugin.CrowdMix.dll"
+changelog: >
+  Initial release

@@ -1,0 +1,11 @@
+[
+  {
+    "guid": "fd98574b-53f4-473d-81e1-ca86cce168bd",
+    "name": "CrowdMix",
+    "overview": "A better Instant Mix powered by real listening-crowd similarity (Last.fm), not just audio.",
+    "description": "CrowdMix replaces Jellyfin's native Instant Mix with recommendations sourced from a real listening population via the Last.fm API. It matches local tracks to the catalog, pulls similar tracks and artists, intersects with owned music, and re-ranks by your Jellyfin play history and tag overlap. Unmatched tracks fall back to the native mix.",
+    "owner": "johnpc",
+    "category": "General",
+    "versions": []
+  }
+]
