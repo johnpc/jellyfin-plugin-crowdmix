@@ -8,12 +8,12 @@
     "category": "General",
     "versions": [
       {
-        "version": "0.0.0.1",
-        "changelog": "See the full changelog at [GitHub](https://github.com/johnpc/jellyfin-plugin-crowdmix/releases/tag/0.0.0.1)",
+        "version": "0.0.0.2",
+        "changelog": "See the full changelog at [GitHub](https://github.com/johnpc/jellyfin-plugin-crowdmix/releases/tag/0.0.0.2)",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "https://github.com/johnpc/jellyfin-plugin-crowdmix/releases/download/0.0.0.1/jellyfin-plugin-crowdmix-0.0.0.1.zip",
-        "checksum": "5d541686c96469e77b6adb1c03bec1f0",
-        "timestamp": "2026-07-10T02:43:19Z"
+        "sourceUrl": "https://github.com/johnpc/jellyfin-plugin-crowdmix/releases/download/0.0.0.2/jellyfin-plugin-crowdmix-0.0.0.2.zip",
+        "checksum": "1d1ac84906f0a75b56a9e6bbd6bb5d16",
+        "timestamp": "2026-07-10T02:46:46Z"
       }
     ]
   }
