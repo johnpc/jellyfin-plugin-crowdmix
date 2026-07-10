@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/assets/banner.png" alt="CrowdMix — crowd-powered instant mix" width="100%" />
+</p>
+
 # CrowdMix
 
 > A better Jellyfin Instant Mix, powered by the **listening crowd** — not just audio.
